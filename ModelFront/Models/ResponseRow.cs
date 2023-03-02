@@ -6,8 +6,9 @@ using System.Threading.Tasks;
 
 namespace ModelFront.Models
 {
-    public class Quality
+    public class ResponseRow
     {
+        public float Risk { get; set; }
         public float Quality { get; set; }
     }
 }

@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ModelFront.Requests
+namespace App.ModelFront
 {
-    public class PredictionRequest
+    public class PredictParameters
     {
         public string Original { get; set; }
         public string Translation { get; set; }

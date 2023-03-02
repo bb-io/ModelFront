@@ -1,49 +1,55 @@
 ﻿using Blackbird.Applications.Sdk.Common.Authentication;
 using Blackbird.Applications.Sdk.Common;
-using System.Text.Json;
+using Newtonsoft.Json;
 using System.Text;
 using ModelFront.Models;
-using ModelFront.Requests;
 using System.Web;
+using App.ModelFront;
+using Newtonsoft.Json.Serialization;
+using RestSharp;
+using System.Diagnostics;
+using App.ModelFront.Other;
 
 namespace ModelFront
 {
     [ActionList]
     public class Actions
     {
+        [Action]
+        public ResponseRow Predict(AuthenticationCredentialsProvider authenticationCredentialsProvider, [ActionParameter] PredictParameters input)
+        {
+            var client = new RestClient("https://api.modelfront.com");
+            var request = new RestRequest("/v1/predict", Method.Post);
+            request.AddQueryParameter("sl", input.SourceLanguage, false);
+            request.AddQueryParameter("tl", input.TargetLanguage, false);
+            request.AddQueryParameter("token", authenticationCredentialsProvider.Value, false);
+            if (input.Engine != null) { request.AddQueryParameter("engine", input.Engine, false); }
+
+            request.AddJsonBody(new Request
+            {
+                Rows = new List<Row>() { new Row { Original = input.Original, Translation = input.Translation } }
+            });
+
+            return client.Post<Response>(request).Rows.First();
+        }
 
         [Action]
-        public Quality Estimate(AuthenticationCredentialsProvider authenticationCredentialsProvider, [ActionParameter] PredictionRequest predictionRequest)
+        public List<ResponseRow> PredictMany(AuthenticationCredentialsProvider authenticationCredentialsProvider, [ActionParameter] PredictManyParameters input)
         {
-            var request = new Request
+            var client = new RestClient("https://api.modelfront.com");
+            var request = new RestRequest("/v1/predict", Method.Post);
+            request.AddQueryParameter("sl", input.SourceLanguage, false);
+            request.AddQueryParameter("tl", input.TargetLanguage, false);
+            request.AddQueryParameter("token", authenticationCredentialsProvider.Value, false);
+            if (input.Engine != null) { request.AddQueryParameter("engine", input.Engine, false); }
+
+            var analyzedRows = input.Segments.ChunkBy(30).SelectMany(rows =>
             {
-                rows = new List<Row>() { new Row { original = predictionRequest.Original, translation = predictionRequest.Translation } }
-            };
+                request.AddJsonBody(new Request { Rows = rows });
+                return client.Post<Response>(request).Rows;
+            });
 
-            var json = JsonSerializer.Serialize(request);
-
-            var httpClient = new HttpClient();
-            var builder = new UriBuilder("https://api.modelfront.com/v1/predict");
-            var query = HttpUtility.ParseQueryString(builder.Query);
-            query["sl"] = predictionRequest.SourceLanguage;
-            query["tl"] = predictionRequest.TargetLanguage;
-            query["token"] = authenticationCredentialsProvider.Value;
-            if (predictionRequest.Engine != null) { query["engine"] = predictionRequest.Engine; }
-            builder.Query = query.ToString();
-
-            var httpRequest = new HttpRequestMessage()
-            {
-                RequestUri = builder.Uri,
-                Method = HttpMethod.Post
-            };
-
-            httpRequest.Content = new StringContent(json, Encoding.UTF8, "application/json");
-
-            var response = httpClient.Send(httpRequest);
-            var responseString = Task.Run(async () => await response.Content.ReadAsStringAsync()).Result;
-            var result = JsonSerializer.Deserialize<Response>(responseString);
-
-            return result.rows.First();
+            return analyzedRows.ToList();
         }
     }
 }

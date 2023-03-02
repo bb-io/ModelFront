@@ -8,7 +8,7 @@ namespace ModelFront.Models
 {
     public class Row
     {
-        public string original { get; set; }
-        public string translation { get; set; }
+        public string Original { get; set; }
+        public string Translation { get; set; }
     }
 }

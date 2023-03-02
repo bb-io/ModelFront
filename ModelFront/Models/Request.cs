@@ -8,6 +8,6 @@ namespace ModelFront.Models
 {
     public class Request
     {
-        public List<Row> rows { get; set; }
+        public List<Row> Rows { get; set; }
     }
 }

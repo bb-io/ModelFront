@@ -8,7 +8,7 @@ namespace ModelFront.Models
 {
     public class Response
     {
-        public string status { get; set; }
-        public List<Quality> rows { get; set; }
+        public string Status { get; set; }
+        public List<ResponseRow> Rows { get; set; }
     }
 }
