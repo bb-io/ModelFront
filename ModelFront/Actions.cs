@@ -1,13 +1,8 @@
 ﻿using Blackbird.Applications.Sdk.Common.Authentication;
 using Blackbird.Applications.Sdk.Common;
-using Newtonsoft.Json;
-using System.Text;
 using ModelFront.Models;
-using System.Web;
 using App.ModelFront;
-using Newtonsoft.Json.Serialization;
 using RestSharp;
-using System.Diagnostics;
 using App.ModelFront.Other;
 
 namespace ModelFront
