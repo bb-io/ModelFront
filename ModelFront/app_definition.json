@@ -1,0 +1,12 @@
+﻿{
+  "definition": [
+    {
+      "name": "token",
+      "description": "Bearer token for authorization"
+    }
+  ],
+  "communicationWrapperType": "HttpWrapper",
+  "authenticationType": null,
+  "authenticationDefition": null,
+  "authenticationResponseMapping": null
+}
