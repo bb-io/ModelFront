@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace App.ModelFront
+namespace Apps.ModelFront.Parameters
 {
     public class PredictParameters
     {
