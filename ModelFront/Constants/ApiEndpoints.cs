@@ -4,4 +4,5 @@ public class ApiEndpoints
 {
     public const string Predict = "/predict";
     public const string Languages = "/languages";
+    public const string Models = "/models";
 }
