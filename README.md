@@ -4,6 +4,8 @@ Blackbird is the new automation backbone for the language technology industry. B
 
 ## Introduction
 
+<!-- begin docs -->
+
 ModelFront specializes in providing solutions for improving machine translation (MT) quality. Their primary focus is on helping businesses and organizations achieve better translation outputs through their software platform. ModelFront offers services such as data evaluation, model performance monitoring, and quality assessment to ensure that machine translation systems deliver accurate and reliable results. 
 
 ## Before setting up
