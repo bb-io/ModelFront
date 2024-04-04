@@ -29,7 +29,7 @@ Before you can connect you need to make sure that:
 
 - **Predict** Get prediction data for a single segment
 - **Predict multiple** Get prediction data for multiple segments
-- **Predict XLIFF** Get quality and risk prediction data for all segments in an XLIFF 1.2 file. Mandatory input data include the translated XLIFF file, source and target language values. As an output, Average Quality and Average Risk scores are provided, which are the average of the quality and risk scores for all segments in the file. Additionally, all translation units get appeneded with their individual quality score which is added to the `extradata` attribute in the XLIFF file. Optionally, you can add Threshold, New Target State and Condition input parameters to the Blackbird action to change the target state value of segments meeting the desired criteria.
+- **Predict XLIFF** Get quality and risk prediction data for all segments in an XLIFF 1.2 file. Mandatory input data include the translated XLIFF file, source and target language values. As an output, Average Quality and Average Risk scores are provided, which are the average of the quality and risk scores for all segments in the file. Additionally, all translation units get appended with their individual quality score which is added to the `extradata` attribute in the XLIFF file. Optionally, you can add Threshold, New Target State and Condition input parameters to the Blackbird action to change the target state value of segments meeting the desired criteria.
 
 Examples:
 
