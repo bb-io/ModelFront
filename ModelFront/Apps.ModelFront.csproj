@@ -4,12 +4,12 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
     <Product>ModelFront</Product>
-    <Version>1.0.2</Version>
+    <Version>1.0.3</Version>
     <Description>AI-driven machine translation quality prediction</Description>
     <AssemblyName>Apps.ModelFront</AssemblyName>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="Blackbird.Applications.Sdk.Common" Version="2.5.0" />
+    <PackageReference Include="Blackbird.Applications.Sdk.Common" Version="2.6.0" />
     <PackageReference Include="Blackbird.Applications.SDK.Extensions.FileManagement" Version="1.0.1" />
     <PackageReference Include="Blackbird.Applications.Sdk.Utils" Version="1.0.25" />
   </ItemGroup>
