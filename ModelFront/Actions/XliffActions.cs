@@ -1,15 +1,9 @@
 ﻿using Apps.ModelFront.Invocables;
 using Blackbird.Applications.Sdk.Common.Invocation;
 using Blackbird.Applications.SDK.Extensions.FileManagement.Interfaces;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 using Apps.ModelFront.Api;
 using Apps.ModelFront.Constants;
-using Apps.ModelFront.Models.Request;
-using Apps.ModelFront.Models.Response;
 using Blackbird.Applications.Sdk.Common;
 using Blackbird.Applications.Sdk.Common.Actions;
 using RestSharp;
@@ -17,7 +11,6 @@ using System.Xml.Linq;
 using Apps.ModelFront.Models;
 using System.Net.Mime;
 using System.Text.RegularExpressions;
-using Apps.ModelFront.Constants;
 using Apps.ModelFront.Models.Response.Predict;
 using Apps.ModelFront.Models.Request.Predict;
 using Blackbird.Applications.Sdk.Utils.Extensions.String;
@@ -26,26 +19,19 @@ using Blackbird.Applications.Sdk.Utils.Extensions.Http;
 namespace Apps.ModelFront.Actions;
 
 [ActionList]
-public class XliffActions : ModelFrontInvocable
+public class XliffActions(InvocationContext invocationContext, IFileManagementClient fileManagementClient) : ModelFrontInvocable(invocationContext)
 {
-    private readonly IFileManagementClient _fileManagementClient;
-    public XliffActions(InvocationContext invocationContext, IFileManagementClient fileManagementClient) : base(
-       invocationContext)
-    {
-        _fileManagementClient = fileManagementClient;
-    }
-
     [Action("Predict XLIFF", Description = "Get prediction data for an XLIFF 1.2 file")]
     public async Task<PredictXliffResponse> PredictXliff([ActionParameter] PredictQuery query,
         [ActionParameter] PredictXliffInput Input)
     {
-        var _file = await _fileManagementClient.DownloadAsync(Input.File);
+        var _file = await fileManagementClient.DownloadAsync(Input.File);
 
         var transunits = ExtractSegmentsFromXliff(_file);
 
         var results = new Dictionary<string, ResponseRow>();
 
-        var file = await _fileManagementClient.DownloadAsync(Input.File);
+        var file = await fileManagementClient.DownloadAsync(Input.File);
         string fileContent;
         Encoding encoding;
         using (var inFileStream = new StreamReader(file, true))
@@ -104,9 +90,10 @@ public class XliffActions : ModelFrontInvocable
         {
             AverageQuality = results.Values.Average(x => x.Quality),
             AverageRisk = results.Values.Average(x => x.Risk),
-            File = await _fileManagementClient.UploadAsync(new MemoryStream(encoding.GetBytes(fileContent)), MediaTypeNames.Text.Xml, Input.File.Name)
+            File = await fileManagementClient.UploadAsync(new MemoryStream(encoding.GetBytes(fileContent)), MediaTypeNames.Text.Xml, Input.File.Name)
         };
     }
+    
     public List<TranslationUnit> ExtractSegmentsFromXliff(Stream inputStream)
     {
         var TUs = new List<TranslationUnit>();
@@ -126,6 +113,7 @@ public class XliffActions : ModelFrontInvocable
         }
         return TUs;
     }
+    
     private string UpdateTargetState(string fileContent, string state, List<string> filteredTUs)
     {
         var tus = Regex.Matches(fileContent, @"<trans-unit[\s\S]+?</trans-unit>").Select(x => x.Value);
@@ -138,10 +126,4 @@ public class XliffActions : ModelFrontInvocable
         }
         return fileContent;
     }
-
 }
-
-
-
-
-
