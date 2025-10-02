@@ -19,10 +19,7 @@ namespace Apps.ModelFront.Actions;
 public class ReviewActions(InvocationContext invocationContext, IFileManagementClient fileManagementClient) : ModelFrontInvocable(invocationContext)
 {
     [Action("Estimate quality (experimental)", Description = "Evaluate translation quality for interoperable files using ModelFront.")]
-    public async Task<ScoreResponse> EstimateQuality(
-        [ActionParameter] ScoreRequest input,
-        [ActionParameter, Display("Bucket size", Description = "Number of segments to process at once. Default: 1500.")] int? bucketSize = 1500
-    )
+    public async Task<ScoreResponse> EstimateQuality([ActionParameter] ScoreRequest input)
     {
         var fileStream = await fileManagementClient.DownloadAsync(input.File);
         Transformation transformation;
@@ -65,7 +62,7 @@ public class ReviewActions(InvocationContext invocationContext, IFileManagementC
             };
         }
 
-        var batches = unitsToEstimate.Batch(bucketSize ?? 1500);
+        var batches = unitsToEstimate.Batch(input.BucketSize ?? 1500);
         var newSegmentState = SegmentStateHelper.ToSegmentState(input.NewState ?? string.Empty) ?? SegmentState.Reviewed;
 
         var totalUnitsProcessed = 0;

@@ -16,6 +16,9 @@ public class ScoreRequest : IReviewFileInput
     [Display("Target language")]
     public string? TargetLanguage { get; set; }
 
+    [Display("Bucket size", Description = "Number of segments to process at once. Default: 1500.")]
+    public int? BucketSize { get; set; } = 1500;
+
     [Display("Score threshold", Description = "Scores range from 0 (lowest) to 100 (highest confidence), anything lower than threshlod fails the quality check low confidence.")]
     public double? Threshold { get; set; }
 
