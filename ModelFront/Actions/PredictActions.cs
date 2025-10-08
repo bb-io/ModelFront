@@ -13,7 +13,7 @@ using RestSharp;
 
 namespace Apps.ModelFront.Actions;
 
-[ActionList]
+[ActionList("Quality prediction")]
 public class PredictActions(InvocationContext invocationContext) : ModelFrontInvocable(invocationContext)
 {
     [Action("Predict", Description = "Get prediction data for a single segment")]

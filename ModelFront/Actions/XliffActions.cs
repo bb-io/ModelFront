@@ -18,7 +18,7 @@ using Blackbird.Applications.Sdk.Utils.Extensions.Http;
 
 namespace Apps.ModelFront.Actions;
 
-[ActionList]
+[ActionList("XLIFF")]
 public class XliffActions(InvocationContext invocationContext, IFileManagementClient fileManagementClient) : ModelFrontInvocable(invocationContext)
 {
     [Action("Predict XLIFF", Description = "Get prediction data for an XLIFF 1.2 file")]

@@ -8,17 +8,17 @@ using Blackbird.Filters.Enums;
 using Blackbird.Filters.Extensions;
 using Blackbird.Filters.Transformations;
 using Blackbird.Applications.Sdk.Common;
-using Blackbird.Applications.Sdk.Common.Actions;
 using Blackbird.Applications.Sdk.Common.Exceptions;
 using Blackbird.Applications.Sdk.Common.Invocation;
 using Blackbird.Applications.SDK.Extensions.FileManagement.Interfaces;
 
 namespace Apps.ModelFront.Actions;
 
-[ActionList]
+//Hidden from Blackbird UI until further tests
+//[ActionList("Review")]
 public class ReviewActions(InvocationContext invocationContext, IFileManagementClient fileManagementClient) : ModelFrontInvocable(invocationContext)
 {
-    [Action("Estimate quality (experimental)", Description = "Evaluate translation quality for interoperable files using ModelFront.")]
+    //[Action("Estimate quality (experimental)", Description = "Evaluate translation quality for interoperable files using ModelFront.")]
     public async Task<ScoreResponse> EstimateQuality([ActionParameter] ScoreRequest input)
     {
         var fileStream = await fileManagementClient.DownloadAsync(input.File);
