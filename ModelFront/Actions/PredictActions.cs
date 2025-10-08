@@ -13,13 +13,9 @@ using RestSharp;
 
 namespace Apps.ModelFront.Actions;
 
-[ActionList]
-public class PredictActions : ModelFrontInvocable
+[ActionList("Quality prediction")]
+public class PredictActions(InvocationContext invocationContext) : ModelFrontInvocable(invocationContext)
 {
-    public PredictActions(InvocationContext invocationContext) : base(invocationContext)
-    {
-    }
-
     [Action("Predict", Description = "Get prediction data for a single segment")]
     public async Task<ResponseRow> Predict(
         [ActionParameter] PredictQuery query,
